@@ -1,0 +1,43 @@
+plugins { id 'com.android.application' }
+
+android {
+    namespace "com.ultraman.battle"
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.ultraman.battle"
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+    }
+
+    signingConfigs {
+        // 只有当 app/../ultraman.jks 存在时才启用正式签名，避免工程在配置阶段报错。
+        // 生成方式见 README「三、正式签名」。
+        if (file("../ultraman.jks").exists()) {
+            release {
+                storeFile file("../ultraman.jks")
+                storePassword "ultraman2026"
+                keyAlias "ultraman"
+                keyPassword "ultraman2026"
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    lint { abortOnError false; checkReleaseBuilds false }
+}
+
+dependencies {}
